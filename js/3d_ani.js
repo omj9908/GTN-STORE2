@@ -15,8 +15,6 @@ export let savedScores = []; //  저장된 주사위 점수 리스트(해당 리
 let rollCount = 0; // 현재 라운드에서 주사위를 굴린 횟수
 const maxRolls = 3; // 최대 굴릴 수 있는 횟수
 
-import { getEquippedSkins } from './index.js';
-
 let createDice;
 let params;
 let diceFile = './normal_dice.js'; // 기본값 설정
@@ -284,13 +282,16 @@ function updateSceneSize() {
 function throwDice() {
     if (rollCount >= maxRolls) return; // 🛑 3번 초과하면 동작하지 않음
 
-    rollCount++;
+    rollCount++; // 주사위를 굴릴 때마다 증가
     console.log(`🎲 주사위를 ${rollCount}번 굴렸습니다.`);
 
-    // 🛑 남은 횟수 UI 업데이트
+
+    // 🛑 남은 횟수 UI 업데이트 (3 - rollCount 직접 사용)
     document.getElementById("roll-count-display").textContent = 3 - rollCount;
 
     const rollBtn = document.getElementById("roll-btn");
+
+    // 🛑 Throw! 버튼 비활성화 (주사위를 굴리는 동안)
     rollBtn.disabled = true;
     rollBtn.style.opacity = "0.5";
     rollBtn.style.cursor = "not-allowed";
@@ -307,25 +308,19 @@ function throwDice() {
     const heldDice = diceArray.filter(dice => dice.body.userData.clickState === 1);
     const rollingDice = diceArray.filter(dice => dice.body.userData.clickState === 0);
 
-    // ✅ 주사위의 원래 위치 저장 (처음 throwDice 실행 시)
-    rollingDice.forEach(dice => {
-        if (!dice.body.userData.originalPosition) {
-            dice.body.userData.originalPosition = { 
-                x: dice.body.position.x, 
-                y: dice.body.position.y, 
-                z: dice.body.position.z 
-            };
-        }
-    });
-
     // 주사위 순서 업데이트
     diceArray.length = 0;
     diceArray.push(...heldDice, ...rollingDice);
 
     console.log("🔄 주사위 순서 재정렬:", diceArray.map((d, i) => `#${i + 1}`));
 
-    let newScores = [];
+    // 기존 throwDice 로직 유지
+    const prevScores = scoreResult.dataset.scores ? scoreResult.dataset.scores.split(',') : [];
+    const prevClickCount = heldDice.length;  // 🔹 기존 고정된 주사위 개수
 
+    let newScores = [...prevScores];
+    let firstThrow = !prevScores.length;
+    
     diceArray.forEach((d, dIdx) => {
         if (d.body.userData.clickState === 1) {
             // 🛑 고정된 주사위가 인덱스에 맞는 보관 위치로 이동
@@ -336,7 +331,7 @@ function throwDice() {
             d.mesh.position.copy(d.body.position); // Three.js 메쉬 위치 동기화
 
             // 기존 점수 유지
-            newScores[dIdx] = d.body.userData.result || "?";
+            newScores[dIdx] = prevScores[dIdx] || d.body.userData.result || "?";
             return;
         }
 
@@ -361,8 +356,8 @@ function throwDice() {
             dice.body.userData.clickState = 0;
         });
 
-        diceArray.slice(0, heldDice.length).forEach(dice => {
-            dice.body.userData.clickState = 1;
+        diceArray.slice(0, prevClickCount).forEach(dice => {
+            dice.body.userData.clickState = 1; // 🔹 이전에 고정된 주사위만 다시 clickState === 1로 설정
         });
 
         // ✅ score 업데이트를 여기서 실행 (clickState가 올바르게 반영된 후)
@@ -376,9 +371,11 @@ function throwDice() {
         const sumElement = document.getElementById("score-sum");
         const sum = newScores.reduce((total, num) => total + (parseInt(num) || 0), 0);
         sumElement.textContent = `Sum: ${sum}`;
-    }, 500);
-}
+        
+        // updateButtonState(); // 🛑 버튼 상태 업데이트 (Throw! 비활성화 여부 체크) <-만약 오류가 나면 여기 주석을 풀고 다시 해봐야함함
 
+    }, 500); // score 업데이트를 clickState가 적용된 후 실행
+}
 
 let allDiceStopped = false; // 모든 주사위가 멈췄는지 추적
 // 여기가 최적의 타이밍인데...(copy10)
@@ -483,15 +480,13 @@ function addMouseInteractionToDice() {
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
         let isHovered = false;
-        let hoverStartTime = 0; // 🛑 hover 시작 시간 저장
-        let canClick = false; // 🛑 클릭 가능 여부
 
         // 기존 이벤트 리스너 제거
         dice.mesh.__hoverListener && window.removeEventListener('mousemove', dice.mesh.__hoverListener);
         dice.mesh.__clickListener && window.removeEventListener('click', dice.mesh.__clickListener);
         dice.mesh.__leaveListener && window.removeEventListener('mouseleave', dice.mesh.__leaveListener);
 
-        // 🛑 Hover 이벤트 (마우스를 주사위 위에 올릴 때)
+        // 🛑 Hover 이벤트: 보관된 주사위 (clickState === 1) 는 절대 hover 이벤트 추가 안 함!
         dice.mesh.__hoverListener = (event) => {
             if (!isInteractionEnabled) return;
             if (dice.body.userData.clickState === 1) return; // 🛑 보관된 주사위는 hover 무시
@@ -505,33 +500,17 @@ function addMouseInteractionToDice() {
             if (intersects.length > 0) {
                 if (!isHovered) {
                     isHovered = true;
-                    hoverStartTime = performance.now(); // 🛑 hover 시작 시간 기록
-                    canClick = false; // 🛑 초기화
-                    document.body.style.cursor = "default"; // 🛑 기본 커서
-
-                    setTimeout(() => {
-                        if (isHovered) {
-                            canClick = true; // 🟢 0.27초 후 클릭 가능
-                            document.body.style.cursor = "pointer"; // 🟢 클릭 가능 시 포인터 변경
-                        }
-                    }, 270);
-
                     animateDiceOnHover(dice, true);
                 }
             } else if (isHovered) { 
                 isHovered = false;
-                hoverStartTime = 0;
-                canClick = false; // 🛑 hover 해제 시 클릭 불가능
-                document.body.style.cursor = "default"; // 🛑 기본 커서로 변경
                 animateDiceOnHover(dice, false);
             }
         };
         window.addEventListener('mousemove', dice.mesh.__hoverListener);
 
-        // 🟢 Click 이벤트 (0.27초 이상 hover된 경우에만 실행)
+        // 🟢 Click 이벤트는 항상 추가 (보관된 주사위도 클릭 가능)
         dice.mesh.__clickListener = (event) => {
-            if (!canClick) return; // 🛑 0.27초 안 지나면 클릭 차단
-
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -556,9 +535,6 @@ function addMouseInteractionToDice() {
             dice.mesh.position.copy(dice.body.position); // 위치 동기화
 
             updateButtonState(); // 버튼 상태 업데이트
-
-            // 🛑 클릭 후 마우스 커서를 기본 상태로 변경
-            document.body.style.cursor = "default";
         };
         window.addEventListener('click', dice.mesh.__clickListener);
     });

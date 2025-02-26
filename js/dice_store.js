@@ -494,7 +494,7 @@ let provider, signer, contract, currentAccount;
 
 let isWalletConnected = false;
 
-if (window.location.pathname !== "/sol.html") {
+if (window.location.pathname !== "/game.html") {
     connectWallet();  // 🔹 `await`을 제거 (top-level await 사용 불가 문제 해결)
 }
 
