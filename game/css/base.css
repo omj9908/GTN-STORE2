@@ -1,0 +1,92 @@
+/* 배경 색상 및 텍스트 색상*/
+:root {
+    --color-text: #f01b1b;
+    --color-bg: #03530f;
+}
+
+body {
+    margin: 0;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.ui-controls {
+    position: fixed; /* 화면에 고정 */
+    bottom: 20px; /* 아래에서 20px */
+    right: 20px; /* 오른쪽에서 20px */
+    max-width: 300px; /* 컨트롤 크기 제한 */
+    text-align: right; /* 텍스트 정렬을 오른쪽으로 */
+    font-family: inherit;
+    user-select: none;
+    line-height: 1.5;
+    padding: 10px;
+}
+
+.score {
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #f3f859;
+    line-height: 1.5;
+}
+
+#score-sum {
+    font-size: 1.6rem;
+    color: #f5ef7e;
+}
+.ui-controls #score-result {
+    display: inline-block;
+    font-size: 2.2rem; /* Score 숫자 크기 증가 */
+    color: #fefc7f;
+}
+
+.ui-controls #roll-btn {
+    background-color: #ffffff;
+    font-weight: bold;
+    color: #000000;
+    border: none;
+    padding: 1.5em 2.5em; /* 버튼 크기 증가 */
+    border-radius: 2em; /* 둥근 모서리 크기 증가 */
+    font-size: 1.5rem; /* 글꼴 크기 증가 */
+    
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    margin: 2em 0 0 0;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.ui-controls #roll-btn:hover {
+    background-color: #d8edc0;
+}
+
+.ui-controls #roll-btn:active {
+    transform: translateY(2px);
+}
+

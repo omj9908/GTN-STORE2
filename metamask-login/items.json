@@ -1,0 +1,8 @@
+[
+    { "id": 0, "title": "빨간 주사위", "cost": 2, "src": "https://gateway.pinata.cloud/ipfs/QmPdwEt1NpCEd2c5iB5nio99Sk3kGjL7EGANUK7qYpruJG"},
+    { "id": 1, "title": "파란 주사위", "cost": 3, "src": "https://gateway.pinata.cloud/ipfs/QmXfEarvVxihF4ryVFGymFeiiZPaiS9EcX4B9sj31XPdv4" },
+    { "id": 2, "title": "초록 주사위", "cost": 2, "src": "https://gateway.pinata.cloud/ipfs/QmSBmV95qnoWcaNcq15EwuuwSW8MDu8SDmDeJB14zBrzho" },
+    { "id": 3, "title": "노란 주사위", "cost": 4, "src": "https://gateway.pinata.cloud/ipfs/QmVTPrvsTCQQYC8DE8K6thVuUREj2CyRJAhcvqddiwqt6f" },
+    { "id": 4, "title": "하늘 주사위", "cost": 5, "src": "https://gateway.pinata.cloud/ipfs/QmP8ed2CVmRDHbdw45VTmtj9YctcA6fcHomF57VPwxTzRE" },
+    { "id": 5, "title": "보라 주사위", "cost": 6, "src": "https://gateway.pinata.cloud/ipfs/QmUbGueD5oCH5zk546BAw5tM4WJ2VVFUjgoAXDR1p4UJTY" }
+]

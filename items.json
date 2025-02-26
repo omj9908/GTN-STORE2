@@ -1,0 +1,8 @@
+[
+    { "id": 0, "title": "red_dice", "cost": 2, "src": "https://example.com/red-dice.jpg" },
+    { "id": 1, "title": "blue_dice", "cost": 3, "src": "https://example.com/blue-dice.jpg" },
+    { "id": 2, "title": "green_dice", "cost": 2, "src": "https://example.com/green-dice.jpg" },
+    { "id": 3, "title": "yellow_dice", "cost": 4, "src": "https://example.com/yellow-dice.jpg" },
+    { "id": 4, "title": "aqua_dice", "cost": 5, "src": "https://example.com/sky-dice.jpg" },
+    { "id": 5, "title": "violet_dice", "cost": 6, "src": "https://example.com/purple-dice.jpg" }
+]

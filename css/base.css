@@ -1,0 +1,146 @@
+/* 배경 색상 및 텍스트 색상*/
+:root {
+    --color-text: #f01b1b;
+    --color-bg: #03530f;
+}
+
+body {
+    margin: 0;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.ui-controls {
+    position: fixed; /* 화면에 고정 */
+    bottom: 20px; /* 아래에서 20px */
+    right: 20px; /* 오른쪽에서 20px */
+    max-width: 300px; /* 컨트롤 크기 제한 */
+    text-align: right; /* 텍스트 정렬을 오른쪽으로 */
+    font-family: inherit;
+    user-select: none;
+    line-height: 1.5;
+    padding: 10px;
+}
+
+.score {
+    position: fixed;
+    bottom: 250px; /* 화면 상단에서 15px 떨어짐 */
+    right: 15px; /* 화면 오른쪽에서 15px 떨어짐 */
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #fb8d08;
+    line-height: 1.5;
+}
+
+#score-sum {
+    position: fixed;
+    bottom: 200px; /* 화면 상단에서 15px 떨어짐 */
+    right: 15px; /* 화면 오른쪽에서 15px 떨어짐 */
+    font-size: 1.6rem;
+    color: #f79708;
+}
+.ui-controls #score-result {
+    display: inline-block;
+    font-size: 2.2rem; /* Score 숫자 크기 증가 */
+    color: #f79708;
+}
+
+.ui-controls #roll-btn {
+    position: fixed;
+    bottom: 100px; /* 화면 상단에서 15px 떨어짐 */
+    right: 15px; /* 화면 오른쪽에서 15px 떨어짐 */
+    background-color: #ffffff;
+    font-weight: bold;
+    color: #000000;
+    border: none;
+    padding: 1.0em 2.0em; /* 버튼 크기 증가 */
+    border-radius: 2em; /* 둥근 모서리 크기 증가 */
+    font-size: 2rem; /* 글꼴 크기 증가 */
+    
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    margin: 2em 0 0 0;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.ui-controls #roll-btn:hover {
+    background-color: #d8edc0;
+}
+
+.ui-controls #roll-btn:active {
+    transform: translateY(2px);
+}
+
+.roll-counter {
+    position: fixed;
+    top: 15px; /* 화면 상단에서 15px 떨어짐 */
+    right: 15px; /* 화면 오른쪽에서 15px 떨어짐 */
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: hsl(0, 0%, 100%); /* 토마토 색상 */
+    background: hsl(0, 0%, 0%);
+    border: 2px solid hsl(0, 0%, 100%);
+    border-radius: 10px;
+    padding: 8px 12px;
+    display: inline-block;
+    margin-top: 10px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.roll-counter.bounce {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+/* Save! 버튼 스타일 (Throw! 버튼과 동일한 크기, 색상만 다름) */
+#save-btn {
+    width: 120px;
+    height: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    background-color: #2ecc71; /* 초록색 */
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#save-btn:hover {
+    background-color: #27ae60; /* 조금 더 진한 초록색 */
+}
+
+/* Save 버튼이 비활성화됐을 때 스타일 */
+#save-btn:disabled {
+    background-color: #bdc3c7; /* 회색 */
+    cursor: not-allowed;
+}

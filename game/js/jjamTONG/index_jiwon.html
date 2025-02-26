@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2인용 얏지 게임</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button {
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button:disabled {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>2인용 얏지 게임</h1>
+
+    <button onclick="startGame()">게임 시작</button>
+    <p id="diceResult"></p>
+    
+    <h3>플레이어 1 점수판</h3>
+    <table id="scoreBoardPlayer1">
+        <thead>
+            <tr>
+                <th>카테고리</th>
+                <th>점수</th>
+                <th>선택</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tbody>
+                <tr>
+                    <td>1의 개수</td>
+                    <td id="scoreOnes">-</td>
+                    <td><button id="onesButton" class="button" onclick="scoreCategory('ones')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>2의 개수</td>
+                    <td id="scoreTwos">-</td>
+                    <td><button id="twosButton" class="button" onclick="scoreCategory('twos')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>3의 개수</td>
+                    <td id="scoreThrees">-</td>
+                    <td><button id="threesButton" class="button" onclick="scoreCategory('threes')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>4의 개수</td>
+                    <td id="scoreFours">-</td>
+                    <td><button id="foursButton" class="button" onclick="scoreCategory('fours')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>5의 개수</td>
+                    <td id="scoreFives">-</td>
+                    <td><button id="fivesButton" class="button" onclick="scoreCategory('fives')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>6의 개수</td>
+                    <td id="scoreSixes">-</td>
+                    <td><button id="sixesButton" class="button" onclick="scoreCategory('sixes')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>3개 같으면</td>
+                    <td id="scoreThreeOfAKind">-</td>
+                    <td><button id="threeOfAKindButton" class="button" onclick="scoreCategory('threeOfAKind')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>4개 같으면</td>
+                    <td id="scoreFourOfAKind">-</td>
+                    <td><button id="fourOfAKindButton" class="button" onclick="scoreCategory('fourOfAKind')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>풀 하우스</td>
+                    <td id="scoreFullHouse">-</td>
+                    <td><button id="fullHouseButton" class="button" onclick="scoreCategory('fullHouse')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>작은 스트레이트</td>
+                    <td id="scoreSmallStraight">-</td>
+                    <td><button id="smallStraightButton" class="button" onclick="scoreCategory('smallStraight')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>큰 스트레이트</td>
+                    <td id="scoreLargeStraight">-</td>
+                    <td><button id="largeStraightButton" class="button" onclick="scoreCategory('largeStraight')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>얏지</td>
+                    <td id="scoreYahtzee">-</td>
+                    <td><button id="yahtzeeButton" class="button" onclick="scoreCategory('yahtzee')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>기회</td>
+                    <td id="scoreChance">-</td>
+                    <td><button id="chanceButton" class="button" onclick="scoreCategory('chance')">선택</button></td>
+                </tr>
+            </tbody>
+            
+        </tbody>
+    </table>
+
+    <h3>플레이어 2 점수판</h3>
+    <table id="scoreBoardPlayer2">
+        <thead>
+            <tr>
+                <th>카테고리</th>
+                <th>점수</th>
+                <th>선택</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tbody>
+                <tr>
+                    <td>1의 개수</td>
+                    <td id="scoreOnes">-</td>
+                    <td><button id="onesButton" class="button" onclick="scoreCategory('ones')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>2의 개수</td>
+                    <td id="scoreTwos">-</td>
+                    <td><button id="twosButton" class="button" onclick="scoreCategory('twos')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>3의 개수</td>
+                    <td id="scoreThrees">-</td>
+                    <td><button id="threesButton" class="button" onclick="scoreCategory('threes')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>4의 개수</td>
+                    <td id="scoreFours">-</td>
+                    <td><button id="foursButton" class="button" onclick="scoreCategory('fours')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>5의 개수</td>
+                    <td id="scoreFives">-</td>
+                    <td><button id="fivesButton" class="button" onclick="scoreCategory('fives')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>6의 개수</td>
+                    <td id="scoreSixes">-</td>
+                    <td><button id="sixesButton" class="button" onclick="scoreCategory('sixes')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>3개 같으면</td>
+                    <td id="scoreThreeOfAKind">-</td>
+                    <td><button id="threeOfAKindButton" class="button" onclick="scoreCategory('threeOfAKind')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>4개 같으면</td>
+                    <td id="scoreFourOfAKind">-</td>
+                    <td><button id="fourOfAKindButton" class="button" onclick="scoreCategory('fourOfAKind')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>풀 하우스</td>
+                    <td id="scoreFullHouse">-</td>
+                    <td><button id="fullHouseButton" class="button" onclick="scoreCategory('fullHouse')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>작은 스트레이트</td>
+                    <td id="scoreSmallStraight">-</td>
+                    <td><button id="smallStraightButton" class="button" onclick="scoreCategory('smallStraight')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>큰 스트레이트</td>
+                    <td id="scoreLargeStraight">-</td>
+                    <td><button id="largeStraightButton" class="button" onclick="scoreCategory('largeStraight')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>얏지</td>
+                    <td id="scoreYahtzee">-</td>
+                    <td><button id="yahtzeeButton" class="button" onclick="scoreCategory('yahtzee')">선택</button></td>
+                </tr>
+                <tr>
+                    <td>기회</td>
+                    <td id="scoreChance">-</td>
+                    <td><button id="chanceButton" class="button" onclick="scoreCategory('chance')">선택</button></td>
+                </tr>
+            </tbody>
+            
+        </tbody>
+    </table>
+
+    <script src="score.js"></script>
+</body>
+</html>
