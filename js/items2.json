@@ -1,0 +1,8 @@
+[
+    { "id": 100, "title": "desert", "cost": 30, "src": "https://example.com/desert.jpg" },
+    { "id": 101, "title": "snowy_mountain", "cost": 30, "src": "https://example.com/snowy_mountai.jpg" },
+    { "id": 102, "title": "forest_map", "cost": 25, "src": "https://example.com/forest_map.jpg" },
+    { "id": 103, "title": "volcano", "cost": 40, "src": "https://example.com/volcano.jpg" }
+    
+
+]

@@ -60,14 +60,9 @@
 
     <button id="getGTN" style="display: none;" onclick="requestGTN()">💰 GTN 획득</button>
 
+    <button href="./mapstore.html">맵 스토어</button>
+    <button id="go-nft-store-btn">🖼️ NFT 상점으로 이동</button>
 
-    <button onclick="connectWallet()">🔗 메타마스크 연결</button>
-
-    <button onclick="checkBalance()">💰 GTN 잔액 확인</button>
-
-    <button onclick="loadPurchaseHistory()">🔄 구매 내역 새로고침</button>
-
-    <p id="account">지갑이 연결되지 않음</p>
     <p id="balance">잔액: -- GTN</p>
     
     <button onclick="rollDice()">🎲 주사위 굴리기</button>
@@ -149,5 +144,19 @@
             displayDices(); 
         };
     </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const goNFTStoreBtn = document.getElementById("go-nft-store-btn");
+        if (goNFTStoreBtn) {
+            goNFTStoreBtn.addEventListener("click", function () {
+                window.location.href = "nft_store.html"; 
+            });
+        } else {
+            console.error("NFT 상점 이동 버튼을 찾을 수 없습니다!");
+        }
+    });
+    </script>
+
 </body>
 </html>

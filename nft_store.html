@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT 스토어</title>
+    
+    <!-- Ethers.js -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Pinata 연동 및 NFT 민팅 관련 JS -->
+    <script src="js/nft_store.js" defer></script>
+
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { max-width: 600px; margin: auto; }
+        button { padding: 10px; margin-top: 10px; cursor: pointer; }
+        #walletAddress { font-size: 16px; font-weight: bold; color: #007bff; }
+    </style>
+</head>
+<body>
+
+    <h1>🖼️ NFT 스토어</h1>
+
+    <!-- ✅ 현재 연결된 지갑 주소 표시 -->
+    <p>🔗 현재 연결된 지갑: <span id="walletAddress">연결 중...</span></p>
+
+    <!-- ✅ NFT 민팅 폼 -->
+    <div class="container">
+        <h3 class="mt-4">🌟 NFT 민팅</h3>
+        
+        <!-- NFT 받을 지갑 주소 입력 -->
+        <div class="mb-3">
+            <input type="text" class="form-control" id="recipientAddress" placeholder="NFT를 받을 지갑 주소 입력">
+        </div>
+
+        <!-- NFT 이름 입력 -->
+        <div class="mb-3">
+            <input type="text" class="form-control" id="nftName" placeholder="NFT 이름 입력">
+        </div>
+
+        <!-- NFT 설명 입력 -->
+        <div class="mb-3">
+            <textarea class="form-control" id="description" placeholder="NFT 설명 입력"></textarea>
+        </div>
+
+        <!-- 이미지 업로드 -->
+        <div class="mb-3">
+            <input type="file" class="form-control" id="upload">
+            <button class="btn btn-primary mt-2" id="uploadButton">📤 이미지 업로드</button>
+        </div>
+
+        <!-- IPFS 링크 결과 -->
+        <div class="mb-3">
+            <p id="result">IPFS 링크가 여기에 표시됩니다.</p>
+        </div>
+
+        <!-- NFT 민팅 버튼 -->
+        <button class="btn btn-danger" id="mintButton">🌟 NFT 민팅</button>
+        
+        <!-- 상태 메시지 -->
+        <p id="status"></p>
+    </div>
+
+    <!-- ✅ 이전 페이지(dice_store.html)로 돌아가기 -->
+    <button class="btn btn-secondary mt-3" id="backButton">🔙 주사위 상점으로 돌아가기</button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        async function connectWallet() {
+            if (!window.ethereum) {
+                alert("🚨 MetaMask가 설치되어 있지 않습니다!");
+                return;
+            }
+
+            try {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const accounts = await provider.send("eth_requestAccounts", []);
+                const currentAccount = accounts[0];
+
+                if (!currentAccount) {
+                    alert("🚨 MetaMask 계정을 연결해야 합니다!");
+                    return;
+                }
+
+                document.getElementById("walletAddress").textContent = currentAccount;
+                window.signer = provider.getSigner();
+                window.currentAccount = currentAccount;
+
+                console.log(`✅ MetaMask 연결 완료: ${currentAccount}`);
+
+                // 계정 변경 감지 이벤트 추가
+                window.ethereum.on("accountsChanged", (accounts) => {
+                    if (accounts.length === 0) {
+                        alert("🚨 MetaMask 연결이 해제되었습니다. 다시 로그인하세요.");
+                        localStorage.removeItem("userAccount");
+                        window.location.href = "login.html";
+                    } else {
+                        document.getElementById("walletAddress").textContent = accounts[0];
+                        window.currentAccount = accounts[0];
+                    }
+                });
+
+            } catch (error) {
+                console.error("🚨 MetaMask 연결 실패:", error);
+            }
+        }
+
+        // 주사위 상점으로 이동하는 버튼
+        document.getElementById("backButton").addEventListener("click", function () {
+            window.location.href = "dice_store.html";
+        });
+
+        // 페이지 로드 시 지갑 연결
+        window.onload = async function () {
+            await connectWallet();
+        };
+    </script>
+
+</body>
+</html>
