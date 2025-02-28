@@ -149,5 +149,30 @@
             displayDices(); 
         };
     </script>
+    
+    <script>
+    async function fetchItems2() {
+        try {
+            const response = await fetch("./js/items2.json");
+            if (!response.ok) throw new Error("아이템 데이터를 불러오는데 실패했습니다.");
+            const items = await response.json();
+            console.log("✅ `items2.json` 로드 성공:", items);
+            return items;
+        } catch (error) {
+            console.error("🚨 items2.json 데이터 로드 실패:", error);
+            return [];
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        const items = await fetchItems2();
+        if (items.length > 0) {
+            displayDices(items);
+        }
+    });
+    </script>
+
+
+    
 </body>
 </html>

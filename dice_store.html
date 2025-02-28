@@ -54,13 +54,14 @@
             
     </style>
 </head>
-<body>
+<>
     <h1>주사위 상점 🎲</h1>
         <button onclick="logout()">🚪 로그아웃</button>
 
     <button id="getGTN" style="display: none;" onclick="requestGTN()">💰 GTN 획득</button>
 
-    <button href="./mapstore.html">맵 스토어</button>
+    <button id="go-map-store-btn">🗺️ 맵 상점으로 이동</button>
+
     <button id="go-nft-store-btn">🖼️ NFT 상점으로 이동</button>
 
     <p id="balance">잔액: -- GTN</p>
@@ -157,6 +158,30 @@
         }
     });
     </script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const goNFTStoreBtn = document.getElementById("go-nft-store-btn");
+        if (goNFTStoreBtn) {
+            goNFTStoreBtn.addEventListener("click", function () {
+                window.location.href = "nft_store.html"; 
+            });
+        } else {
+            console.error("NFT 상점 이동 버튼을 찾을 수 없습니다!");
+        }
+
+        // ✅ 맵 상점 이동 버튼 이벤트 추가
+        const goMapStoreBtn = document.getElementById("go-map-store-btn");
+        if (goMapStoreBtn) {
+            goMapStoreBtn.addEventListener("click", function () {
+                window.location.href = "mapstore.html"; 
+            });
+        } else {
+            console.error("맵 상점 이동 버튼을 찾을 수 없습니다!");
+        }
+    });
+    </script>
+
 
 </body>
 </html>

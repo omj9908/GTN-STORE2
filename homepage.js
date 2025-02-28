@@ -1,8 +1,13 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'https://unpkg.com/three@0.138.0/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from "https://unpkg.com/three@0.138.0/build/three.module.js";
+import { GLTFLoader } from "https://unpkg.com/three@0.138.0/examples/jsm/loaders/GLTFLoader.js";
 import { Player } from './Player.js';
 import { House } from './House.js';
-import gsap from 'gsap';
+import gsap from "https://cdn.skypack.dev/gsap";
+
+
+console.log("✅ Three.js 로드 완료:", THREE);
+console.log("✅ GSAP 로드 완료:", gsap);
+console.log("✅ GLTFLoader 로드 완료:", GLTFLoader);
 
 // Texture
 const textureLoader = new THREE.TextureLoader();
