@@ -21,7 +21,7 @@ contract GTNToken is ERC20, Ownable {
         itemPrices[3] = 4 * 10 ** 18; // 노란 주사위 4 GTN
         itemPrices[4] = 5 * 10 ** 18; // 하늘 주사위 5 GTN
         itemPrices[5] = 6 * 10 ** 18; // 보라 주사위 6 GTN
-        itemPrices[100] = 2 * 10 ** 18; // 초록 주사위 2 GTN
+        itemPrices[100] = 20 * 10 ** 18; // 초록 주사위 2 GTN
         itemPrices[101] = 4 * 10 ** 18; // 노란 주사위 4 GTN
         itemPrices[102] = 5 * 10 ** 18; // 하늘 주사위 5 GTN
         itemPrices[103] = 6 * 10 ** 18; // 보라 주사위 6 GTN

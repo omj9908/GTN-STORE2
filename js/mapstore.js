@@ -752,6 +752,8 @@ async function requestGTN() {
 }
 
 
+
+
 // 🔹 MetaMask에 GTN 토큰 자동 추가
 async function addGTNToMetaMask() {
     if (!window.ethereum) {
@@ -1060,8 +1062,12 @@ async function loadPurchasedSkins() {
 }
 
 async function displayDices() {
-    const items = await loadItems();
-    const purchasedSkins = await loadPurchasedSkins();
+    const items = await fetchItems2(); // 주사위 아이템 데이터 가져오기
+    if (!items || items.length === 0) {
+        console.warn("🚨 아이템 데이터가 없습니다.");
+        return;
+    }
+
     const container = document.getElementById("diceList");
     container.innerHTML = "";
 
@@ -1073,22 +1079,16 @@ async function displayDices() {
 
         const card = document.createElement("div");
         card.className = "dice-card";
-
-        // 🔹 이미 구매한 스킨인지 확인
-        const isPurchased = purchasedSkins.includes(dice.id);
-        const isEquipped = equippedSkins.includes(dice.id);
-        const buttonLabel = isEquipped ? "장착 해제" : isPurchased ? "장착하기" : "구매하기";
-        const buttonAction = isEquipped ? `unSkin(${dice.id})` : isPurchased ? `equipSkin(${dice.id})` : `buyItem(${dice.id})`;
-
         card.innerHTML = `
             <img src="${dice.src}" alt="${dice.title}">
             <h3>${dice.title}</h3>
             <p>가격: ${price}</p>
-            <button id="skin-btn-${dice.id}" onclick="${buttonAction}">${buttonLabel}</button>
+            <button onclick="buyItem(${dice.id})">구매하기</button>
         `;
         container.appendChild(card);
     }
 }
+
 
 
 // 🔹 주사위 굴리기
@@ -1154,6 +1154,21 @@ async function listenForAccountChange() {
 
 listenForAccountChange();
 
+async function fetchItems2() {
+    try {
+        const response = await fetch("./items2.json"); // 변경된 위치 반영
+        if (!response.ok) throw new Error(`HTTP 오류: ${response.status} (${response.statusText})`);
+        
+        const items = await response.json();
+        console.log("✅ `items2.json` 로드 성공:", items);
+        return items;
+    } catch (error) {
+        console.error("🚨 items2.json 데이터 로드 실패:", error);
+        return [];
+    }
+}
+
+
 let isPurchaseHistoryLoaded = false;
 
 async function loadPurchaseHistory() {
@@ -1218,6 +1233,7 @@ window.onload = async function() {
 
     await loadPurchaseHistory();
     await displayDices();
+    
     
     loadEquippedSkin();  // 🔹 장착한 스킨 불러오기
 
